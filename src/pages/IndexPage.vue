@@ -1,33 +1,36 @@
 <template>
-  <q-page class="flex flex-center">
-    
-    
+
+<div class="row justify-around full-width items-center margin-top: 90px">
+      <q-input outlined filled v-model="search" label="Digite o nome do Pokemon" />
+      <q-btn color="purple" label="Pesquisar" @click="getPokemon" />
+</div>
+  <q-page class="flex flex-center"  :style-fn="myTweak">
+
+
     <div class="column items-center">
       <h2>{{name}}</h2>
     <q-img :src="url"  width="250px" />
     </div>
-    <div class="row justify-around full-width">
-      <q-input outlined filled v-model="search" label="Digite o nome do Pokemon" />
-      <q-btn color="purple" label="Pesquisar" @click="getPokemon" />
-    </div>
+
+
 
     <div class="row justify-between absolute full-width container-arrows">
 
-      <q-icon 
-        name="fa-solid fa-caret-left" 
-        color="primary" 
+      <q-icon
+        name="fa-solid fa-caret-left"
+        color="primary"
         size="4rem"
-        class="q-ml-sm cursor-pointer" 
+        class="q-ml-sm cursor-pointer"
         @click = "getPokemon(this.id - 1)"
       >
         <q-tooltip>
           Anterior
         </q-tooltip>
       </q-icon>
-      <q-icon 
-        name="fa-solid fa-caret-right" 
-        color="primary" 
-        size="4rem" 
+      <q-icon
+        name="fa-solid fa-caret-right"
+        color="primary"
+        size="4rem"
         class="q-mr-sm cursor-pointer"
         @click = "getPokemon(this.id + 1)"
       >
@@ -35,12 +38,14 @@
           Próximo
         </q-tooltip>
       </q-icon>
-      
-    </div>
-     
-    
-        
+      </div>
   </q-page>
+
+<div class="column items-center align=center">
+  <v-card-content>
+    <h2>inserir gráfico aqui</h2>
+  </v-card-content>
+</div>
 </template>
 
 <script>
@@ -58,16 +63,22 @@ import api from "../services/api";
           url: "",
           id: null,
           search: "ditto",
-          
+          height: "",
+          weight: "",
+          HP: "",
+          Attack: "",
+          Defense: "",
+          Speed: "",
+
         };
       },
 
       async beforeMount() {
         await this.getPokemon();
       },
-      
-      
-      
+
+
+
       methods: {
         getPokemon(id) {
               api
@@ -78,7 +89,7 @@ import api from "../services/api";
                   this.name = response.data.name;
                   this.search = response.data.name;
                   this.url = response.data.sprites.other.dream_world.front_default;
-                  
+
                 })
           .catch( (error) => {
             // handle error
@@ -88,7 +99,7 @@ import api from "../services/api";
         triggerPositive () {
         this.$q.notify({
           type: "positive",
-          position: "top", 
+          position: "top",
           message: `Pokemon encontrado! :D ` ,
         });
       },
@@ -96,12 +107,12 @@ import api from "../services/api";
       triggerNegative () {
         this.$q.notify({
           type: "negative",
-          position: "top", 
+          position: "top",
           message: `Ocorreu um erro, tente novamente. :(` ,
         });
       },
       }
-      
+
 
     },)
 
@@ -112,4 +123,6 @@ import api from "../services/api";
   .container-arrows {
 
   }
+
+
 </style>
